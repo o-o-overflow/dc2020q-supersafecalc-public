@@ -1,0 +1,27 @@
+
+A = arch
+A == ARCH_X86_64 ? next : dead
+A = sys_number
+A >= 0x40000000 ? dead : next
+
+A == nanosleep ? ok : next
+A == exit_group ? ok : next
+A == write ? ok : next
+A == read ? ok : next
+A == close ? ok : next
+A == munmap ? ok : next
+
+A == mmap ? pp : next
+A == mprotect ? pp : next
+A == clone ? pp : next
+A == ioctl ? pp : next
+A == open ? pp : next
+
+return KILL
+ok:
+return ALLOW
+dead:
+return KILL
+pp:
+return TRACE
+
